@@ -51,7 +51,13 @@ class TasksController < ApplicationController
   private
   
     def set_task
-      @task = Task.find(params[:id])
+      @task =Task.find(params[:id])
+      
+      unless @task.user == current_user
+        flash[:danger] = 'ほかのユーザーのタスクは閲覧できません。'
+        redirect_to root_url
+      end
+      
     end
 
     def task_params
